@@ -57,6 +57,40 @@
             ]
         },
         {
+            "tag": "link",
+            "patterns": [
+                "provide me the account link of manager",
+                "I want to contact the manager"
+            ],
+            "responses": [
+                "To contact our manager kindly visit this"
+            ],
+            "response_with_links": [
+                {
+                    "message": "",
+                    "text": "profile",
+                    "link": "https://www.facebook.com/muhammad.zidane.988371/"
+                }
+            ],
+            "context": [
+                "prevent cercospora leaf spot"
+            ]
+        },
+        {
+            "tag": "noanswer",
+            "patterns": [
+                "Go to somewhere else"
+            ],
+            "responses": [
+                "Sorry, can't understand you",
+                "Please give me more info",
+                "Not sure I understand"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
             "tag": "noanswer",
             "patterns": [
                 "Go to somewhere else"
@@ -81,9 +115,8 @@
                 "What support is offered"
             ],
             "responses": [
-                "I can guide you about rose plantation",
-                "I can suggest you rose disease preventation techniques, ",
-                "We are offering support for Adverse rose disease preventation and plantation"
+                "I can guide you about our Employee Company Policies",
+                "I can provide you information about our company"
             ],
             "context": [
                 ""

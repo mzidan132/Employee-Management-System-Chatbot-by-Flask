@@ -64,6 +64,9 @@ def login():
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
     user = get_current_user()
     db = get_database()
     if request.method == 'POST':
@@ -86,20 +89,45 @@ def dashboard():
     emp_cur = db.execute('select * from emp')
     allemp = emp_cur.fetchall()
     return render_template('dashboard.html', user = user, allemp = allemp)
+import os
 
-@app.route('/addnewemployee', methods = ["POST", "GET"])
+# Define the path for the upload folder
+UPLOAD_FOLDER = os.path.join('static')
+
+# Ensure the upload folder exists
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+# Set the upload folder in the app configuration
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/addnewemployee', methods=["POST", "GET"])
 def addnewemployee():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     user = get_current_user()
-    if request.method == "POST":
+
+    if request.method == 'POST':
+        # Handle image upload
+        image = request.files['image']
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
         address = request.form['address']
+        salary = request.form['salary']
+        Performance = request.form['Performance']
+        # Save image path to the database
+        img_path = os.path.join(image.filename)
         db = get_database()
-        db.execute('insert into emp (name, email, phone ,address) values (?,?,?,?)', [name, email, phone, address])
+        db.execute('INSERT INTO emp (name, email, phone, address, salary, Performance, img_path) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                   [name, email, phone, address, salary, Performance, img_path])
         db.commit()
         return redirect(url_for('dashboard'))
-    return render_template('addnewemployee.html', user = user)
+    
+    return render_template('addnewemployee.html', user=user)
+
 
 @app.route('/singleemployee/<int:empid>')
 def singleemployee(empid):
@@ -117,8 +145,25 @@ def fetchone(empid):
     single_emp = emp_cur.fetchone()
     return render_template('updateemployee.html', user = user, single_emp = single_emp)
 
-@app.route('/updateemployee' , methods = ["POST", "GET"])
+@app.route('/deleteemp/<int:empid>', methods=["POST"])
+def deleteemp(empid):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    user = get_current_user()
+    if request.method == 'POST':
+        db = get_database()
+        db.execute('DELETE FROM emp WHERE empid = ?', [empid])
+        db.commit()
+        return redirect(url_for('dashboard'))
+
+    return render_template('dashboard.html', user=user)
+
+@app.route('/updateemployee', methods=["POST", "GET"])
 def updateemployee():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
     user = get_current_user()
     if request.method == 'POST':
         empid = request.form['empid']
@@ -126,28 +171,35 @@ def updateemployee():
         email = request.form['email']
         phone = request.form['phone']
         address = request.form['address']
-        db = get_database()
-        db.execute('update emp set name = ?, email =? , phone = ? , address = ? where empid = ?', [name, email, phone, address, empid])
-        db.commit()
-        return redirect(url_for('dashboard'))
-    return render_template('updateemployee.html', user = user)
+        salary = request.form['salary']
+        Performance = request.form['Performance']
 
-@app.route('/deleteemp/<int:empid>', methods = ["GET", "POST"])
-def deleteemp(empid):
-    user = get_current_user()
-    if request.method == 'GET':
+        # Handle image upload
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                # Save the uploaded image to the folder
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+                img_path = os.path.join(image.filename)
+            else:
+                # If no new image is uploaded, use the existing image path
+                img_path = request.form['existing_image_path']
+
         db = get_database()
-        db.execute('delete from emp where empid = ?', [empid])
+        db.execute('UPDATE emp SET name = ?, email = ?, phone = ?, address = ?, salary = ?, Performance = ?, img_path = ? WHERE empid = ?', 
+                   [name, email, phone, address, salary, Performance, img_path, empid])
         db.commit()
         return redirect(url_for('dashboard'))
-    return render_template('dashboard.html', user = user)
+    
+    return render_template('updateemployee.html', user=user)
+
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
-    render_template('home.html')
-
-#chatbot
+    print("Logging out...")
+    session.pop('user',None)
+    print("User session cleared")
+    return redirect(url_for('index'))
 
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
@@ -198,7 +250,7 @@ def getResponse(ints, intents_json):
                 result = random.choice(responses)
                 link_texts = []
                 for link in links_response:
-                    link_texts.append(f"{link['message']}<a href='{link['link']}' target='blank'>{link['text']}</a>")
+                    link_texts.append(f"{link['message']}<a href='{link['link']}' target='blank'>{link['text']}</a><br><img width='200' height='150' alt='.' src='{link['link']}' </img>")
                 return {"text": result + " ".join(link_texts), "link": True}
             else:
                 result = random.choice(responses)
@@ -215,7 +267,7 @@ def chatbot_response(msg):
     link_text = res.get("link_text", "")
 
     if response_link:
-        return f"{response_text} <a href='{link_text}' target='_blank'></a>"
+        return f"{response_text}<br>"
     else:
         return response_text
 
@@ -232,6 +284,5 @@ def get_bot_response():
     responses = chatbot_response(userText)
 
     return json.dumps(responses)
-
 if __name__ == '__main__':
     app.run(debug = True)

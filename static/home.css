@@ -1,4 +1,4 @@
-html, body{    height: 100%;    background-color:whitesmoke;    color:rgb(0, 75, 93);}
+html, body{    height: 100%;    background-color:azure;    color:rgb(0, 75, 93);}
 
 .parent{    height: 100%;    display: grid;    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 10% 5% 7% auto 7%;    }
@@ -47,3 +47,76 @@ html, body{    height: 100%;    background-color:whitesmoke;    color:rgb(0, 75,
 {
     font-size: 100px;
 }
+.sidebar {
+    height: 40%;
+    width: 0;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: goldenrod;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+    position: fixed;
+  }
+  
+  .sidebar a {
+    padding: 6px 6px 6px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #0a0a0a;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  .sidebar button {
+    padding: 6px 6px 6px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #0a0a0a;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar button:hover {
+    color: #f1f1f1;
+  }
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: grey;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: black;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 12px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 305px) {
+    .sidebar {
+      padding-top: 10px;
+    }
+  
+    .sidebar a {
+      font-size: 13px;
+    }
+  }

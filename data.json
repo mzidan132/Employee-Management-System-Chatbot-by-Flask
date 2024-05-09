@@ -57,26 +57,6 @@
             ]
         },
         {
-            "tag": "link",
-            "patterns": [
-                "provide me the account link of manager",
-                "I want to contact the manager"
-            ],
-            "responses": [
-                "To contact our manager kindly visit this"
-            ],
-            "response_with_links": [
-                {
-                    "message": "",
-                    "text": "profile",
-                    "link": "https://www.facebook.com/muhammad.zidane.988371/"
-                }
-            ],
-            "context": [
-                "prevent cercospora leaf spot"
-            ]
-        },
-        {
             "tag": "noanswer",
             "patterns": [
                 "Go to somewhere else"
@@ -91,14 +71,19 @@
             ]
         },
         {
-            "tag": "noanswer",
+            "tag": "manager",
             "patterns": [
-                "Go to somewhere else"
+                "Who is our manager"
             ],
             "responses": [
-                "Sorry, can't understand you",
-                "Please give me more info",
-                "Not sure I understand"
+                "Your manager name is xyz. He is a brilliant person......."
+            ],
+            "response_with_links": [
+                {
+                    "message": "",
+                    "text": "Visit",
+                    "link": "https://i0.wp.com/mbanote.org/wp-content/uploads/2023/07/What-is-a-Manager.png?fit=1200%2C675&ssl=1"
+                }
             ],
             "context": [
                 ""
@@ -115,8 +100,9 @@
                 "What support is offered"
             ],
             "responses": [
-                "I can guide you about our Employee Company Policies",
-                "I can provide you information about our company"
+                "I can guide you about rose plantation",
+                "I can suggest you rose disease preventation techniques, ",
+                "We are offering support for Adverse rose disease preventation and plantation"
             ],
             "context": [
                 ""

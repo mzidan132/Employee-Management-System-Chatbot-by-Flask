@@ -6,10 +6,9 @@ conn = sqlite3.connect('C:/Users/mdzid/Downloads/Documents/flask/crud_applicatio
 # Create a cursor object to execute SQL commands
 cursor = conn.cursor()
 
-# Execute SQL command to add a new column to the 'emp' table
-cursor.execute("ALTER TABLE emp ADD COLUMN img_path TEXT;")
+# Step 1: Add the new column without a default value
+cursor.execute("ALTER TABLE emp ADD COLUMN academics TEXT;")
 
-# Commit the transaction
 conn.commit()
 
 # Close the cursor and connection

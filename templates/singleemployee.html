@@ -41,13 +41,22 @@
                 <div class="card">
                     <div class="row g-0">
                       <div class="col-md-4">
-                        <img src="{{ url_for('static', filename='krishna.jpg')}}" class="img-fluid rounded-start" alt="employee image">
+                        {% if single_emp %}
+                        <div>
+                          {% if single_emp['img_path'] %}
+                              <img src="{{ url_for('static', filename=single_emp['img_path']) }}" class="img-fluid rounded-start" alt="Employee Image" height="300px" width="400px">
+                          {% else %}
+                              <!-- Placeholder image or alternative content -->
+                              <i class="fas fa-image"></i>
+                          {% endif %}
+                      </div>
+                      {% endif %}
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
                           <h3 class="card-title">Employee Details.</h3>
                           {% if single_emp %}  
-                        <div><img src="{{ url_for('static',filename=single_emp['img_path']) }}" class="img-fluid rounded-start" alt="Employee Image" height="150px"width="200px"></div>
+                         
                           <ul class="list-group list-group-numbered">
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                               <div class="ms-2 me-auto">
@@ -75,10 +84,34 @@
                               </li>
                               <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
+                                  <div class="fw-bold">Job Role : {{single_emp['job_role']}}</div>
+                                    </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">Skills : {{single_emp['skills']}}</div>
+                                    </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">Total Projects : {{single_emp['total_project']}}</div>
+                                    </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">Academics : {{single_emp['academics']}}</div>
+                                    </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
                                   <div class="fw-bold">Performance : {{single_emp['Performance']}}</div>
                                     </div>
                               </li>
-                              
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">Suggestions : {{single_emp['suggestion']}}</div>
+                                    </div>
+                              </li>
                               <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Joining Date : {{single_emp['joining_date']}}</div>
@@ -86,7 +119,7 @@
                               </li>                          
                           </ul>
                           {% endif %}  
-                          <p class="card-text"><small class="text-muted">Last updated on : </small></p>
+                          <p class="card-text"><small class="text-muted">Last updated on : {{single_emp['last_updated']}} </small></p>
                         </div>
                       </div>
                     </div>

@@ -17,7 +17,7 @@ from flask import Flask, render_template, request
 from contextlib import redirect_stdout
 from io import StringIO
 from pyngrok import ngrok
-
+from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.static_folder = 'static'
@@ -108,26 +108,39 @@ def addnewemployee():
     user = get_current_user()
 
     if request.method == 'POST':
-        # Handle image upload
-        image = request.files['image']
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
-
+        # Proceed with saving employee details
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
         address = request.form['address']
         salary = request.form['salary']
         Performance = request.form['Performance']
-        # Save image path to the database
-        img_path = os.path.join(image.filename)
+        skills = request.form['skills']
+        total_project = request.form['total_project']
+        suggestion = request.form['suggestion']
+        job_role = request.form['job_role']
+        academics = request.form['academics']
+        # Check if an image was uploaded
+        if 'image' in request.files:
+            image = request.files['image']
+            if image.filename != '':
+                # Save the uploaded image to the folder
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+                img_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            else:
+                # If no image is uploaded, set img_path to None
+                img_path = None
+        else:
+            # If no image is uploaded, set img_path to None
+            img_path = None
+
         db = get_database()
-        db.execute('INSERT INTO emp (name, email, phone, address, salary, Performance, img_path) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                   [name, email, phone, address, salary, Performance, img_path])
+        db.execute('INSERT INTO emp (name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                   [name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path])
         db.commit()
         return redirect(url_for('dashboard'))
     
     return render_template('addnewemployee.html', user=user)
-
 
 @app.route('/singleemployee/<int:empid>')
 def singleemployee(empid):
@@ -173,7 +186,13 @@ def updateemployee():
         address = request.form['address']
         salary = request.form['salary']
         Performance = request.form['Performance']
-
+        skills = request.form['skills']
+        total_project = request.form['total_project']
+        job_role = request.form['job_role']
+        suggestion = request.form['suggestion']
+        academics = request.form['academics']
+        last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        existing_image_path = request.form.get('existing_image_path', '')
         # Handle image upload
         if 'image' in request.files:
             image = request.files['image']
@@ -186,12 +205,12 @@ def updateemployee():
                 img_path = request.form['existing_image_path']
 
         db = get_database()
-        db.execute('UPDATE emp SET name = ?, email = ?, phone = ?, address = ?, salary = ?, Performance = ?, img_path = ? WHERE empid = ?', 
-                   [name, email, phone, address, salary, Performance, img_path, empid])
+        db.execute('UPDATE emp SET name = ?, email = ?, phone = ?, address = ?, salary = ?, Performance = ?, skills = ?, total_project = ?, job_role = ?, suggestion = ?, academics = ?, img_path = ?, last_updated = ? WHERE empid = ?', 
+                   [name, email, phone, address, salary, Performance, skills, total_project, job_role, suggestion, academics, img_path, last_updated, empid])
         db.commit()
         return redirect(url_for('dashboard'))
     
-    return render_template('updateemployee.html', user=user)
+    return render_template('updateemployee.html', user=user, existing_image_path=existing_image_path)
 
 
 @app.route('/logout')

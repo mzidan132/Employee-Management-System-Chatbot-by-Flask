@@ -76,6 +76,7 @@
           </div>
           <div class="mb-2">
             <label for="image" class="form-label">Image</label>
+            <input type="hidden" name="existing_image_path" value="{{ single_emp['img_path'] }}">
             <input type="file" class="form-control" id="image" name="image">
           </div>
           <div class="mb-2">
@@ -83,13 +84,39 @@
             <input type="text" class="form-control" id="salary" value="{{single_emp['salary']}}" name="salary">
           </div>
           <div class="mb-2">
+            <label for="email" class="form-label">Job Role</label>
+            <input type="text" class="form-control" id="job_role" value="{{single_emp['job_role']}}" name="job_role">
+          </div>
+          <div class="mb-2">
+            <label for="email" class="form-label">Total Projects</label>
+            <input type="text" class="form-control" id="total_project" value="{{single_emp['total_project']}}" name="total_project">
+          </div>
+          <div class="mb-2">
+            <label for="email" class="form-label">Skills</label>
+            <input type="text" class="form-control" id="skills" value="{{single_emp['skills']}}" name="skills">
+          </div>
+    
+          <div class="mb-2">
             <label for="Performance" class="form-label">Performance</label>
+            <input type="radio" id="Excellent" name="Performance" value="Excellent" {% if single_emp['Performance'] == 'Excellent' %}checked{% endif %}>
+            <label for="Excellent">Excellent 5*</label>
             <input type="radio" id="Good" name="Performance" value="Good" {% if single_emp['Performance'] == 'Good' %}checked{% endif %}>
-            <label for="Good">Good</label>
+            <label for="Good">Good 4*</label>
+            <input type="radio" id="Average" name="Performance" value="Average" {% if single_emp['Performance'] == 'Average' %}checked{% endif %}>
+            <label for="Average">Average 3*</label>
             <input type="radio" id="Bad" name="Performance" value="Bad" {% if single_emp['Performance'] == 'Bad' %}checked{% endif %}>
-            <label for="Bad">Bad</label>
+            <label for="Bad">Bad 2*</label>
+            <input type="radio" id="warning" name="Performance" value="warning" {% if single_emp['Performance'] == 'warning' %}checked{% endif %}>
+            <label for="warning">Warning 1*</label>
         </div>
-        
+        <div class="mb-2">
+          <label for="email" class="form-label">Suggestions</label>
+          <input type="text" class="form-control" id="suggestion" value="{{single_emp['suggestion']}}" name="suggestion">
+        </div>
+        <div class="mb-2">
+          <label for="email" class="form-label">Academics</label>
+          <input type="text" class="form-control" id="academics" value="{{single_emp['academics']}}" name="academics">
+        </div>
           {% endif %}
           <button type="submit" class="btn text-light m-3" style="background-color:rgb(0, 75, 93);">Update
             Employee</button>

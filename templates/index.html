@@ -1,4 +1,4 @@
-{% from "showlinks.html" import show_links, showsocialmedialinks %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +13,10 @@
 </head>
 
 <body>
-  <div class="child child3">
-    {{ show_links() }}
+  <div>
+    <li class="nav-item">
+      <a class="nav-link" style="color:white;" href="{{url_for('index')}}">Home</a>
+    </li>
   </div>
   <!-- partial:index.partial.html -->
   <section class="msger">
@@ -34,7 +36,7 @@
           </div>
 
           <div class="msg-text">
-            Hello, welcome to RoseBot! If you need any help give me a message 😄
+            Hello, welcome to OfficeBot! If you need any help give me a message 😄
           </div>
         </div>
       </div>

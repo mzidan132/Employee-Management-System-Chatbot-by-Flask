@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='home.css')}}" type="text/css">
 </head>
 
-<body>
+<body style="background-image: url('/static/styles/c.jpg');background-size: cover;">
   <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="/">Home</a>
@@ -53,7 +53,16 @@
     <div class="child child3">
       {{ show_links() }}
     </div>
-
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+      {% for message in messages %}
+      <h3>{{ message }}</h3>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
     <div class="child child4">
       <h3 class="m-2">Welcome to Our App</h3>
     </div>

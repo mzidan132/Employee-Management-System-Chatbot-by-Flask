@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, session, g
+from flask import Flask, url_for, request, session, g, flash
 from flask.templating import render_template
 from werkzeug.utils import redirect
 from database import get_database
@@ -55,6 +55,7 @@ def login():
         if user:
             if check_password_hash(user['password'], password):
                 session['user'] = user['name']
+                flash('logged in successfully')
                 return redirect(url_for('dashboard'))
             else:
                 error = "Username or Password did not match, Try again."
@@ -138,6 +139,7 @@ def addnewemployee():
         db.execute('INSERT INTO emp (name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                    [name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path])
         db.commit()
+        flash('employee added successfully')
         return redirect(url_for('dashboard'))
     
     return render_template('addnewemployee.html', user=user)
@@ -208,6 +210,7 @@ def updateemployee():
         db.execute('UPDATE emp SET name = ?, email = ?, phone = ?, address = ?, salary = ?, Performance = ?, skills = ?, total_project = ?, job_role = ?, suggestion = ?, academics = ?, img_path = ?, last_updated = ? WHERE empid = ?', 
                    [name, email, phone, address, salary, Performance, skills, total_project, job_role, suggestion, academics, img_path, last_updated, empid])
         db.commit()
+        flash('employee updated successfully')
         return redirect(url_for('dashboard'))
     
     return render_template('updateemployee.html', user=user, existing_image_path=existing_image_path)
@@ -218,6 +221,7 @@ def logout():
     print("Logging out...")
     session.pop('user',None)
     print("User session cleared")
+    flash('Logged Out Successfully')
     return redirect(url_for('index'))
 
 lemmatizer = WordNetLemmatizer()

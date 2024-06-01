@@ -18,9 +18,52 @@ from contextlib import redirect_stdout
 from io import StringIO
 from pyngrok import ngrok
 from datetime import datetime
+from flask_socketio import SocketIO, send
+import hashlib
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.static_folder = 'static'
+socketio = SocketIO(app)
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+users = {'Admin': '0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e', 'pulok': 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','zidan': 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'}
+
+def is_authenticated():
+    return 'username' in session
+
+@app.route('/chats')
+def homes():
+    if is_authenticated():
+        return redirect(url_for('chat'))
+    else:
+        return render_template('loginc.html')
+
+@app.route('/loginc', methods=['POST'])
+def loginc():
+    username = request.form['username']
+    password = request.form['password']
+    if username in users and hash_password(password) == users[username]:
+        session['username'] = username
+        return redirect(url_for('chat'))
+    else:
+        return render_template('loginc.html', error='Invalid username or password')
+
+@app.route('/logouts')
+def logouts():
+    session.pop('username', None)
+    return redirect(url_for('homes'))
+
+@app.route('/chat')
+def chat():
+    if not is_authenticated():
+        return redirect(url_for('homes'))
+    return render_template('index.html', username=session['username'])
+
+@socketio.on('message')
+def handleMessage(data):
+    print(f'Message: {data["message"]}, Username: {session["username"]}')
+    send({'message': data['message'], 'username': session['username']}, broadcast=True)
 
 @app.teardown_appcontext
 def close_database(error):
@@ -139,7 +182,7 @@ def addnewemployee():
         db.execute('INSERT INTO emp (name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                    [name, email, phone, address, salary, Performance, skills, total_project, suggestion, job_role, academics, img_path])
         db.commit()
-        flash('employee added successfully')
+        flash('employee added!')
         return redirect(url_for('dashboard'))
     
     return render_template('addnewemployee.html', user=user)
@@ -210,7 +253,7 @@ def updateemployee():
         db.execute('UPDATE emp SET name = ?, email = ?, phone = ?, address = ?, salary = ?, Performance = ?, skills = ?, total_project = ?, job_role = ?, suggestion = ?, academics = ?, img_path = ?, last_updated = ? WHERE empid = ?', 
                    [name, email, phone, address, salary, Performance, skills, total_project, job_role, suggestion, academics, img_path, last_updated, empid])
         db.commit()
-        flash('employee updated successfully')
+        flash('employee updated!')
         return redirect(url_for('dashboard'))
     
     return render_template('updateemployee.html', user=user, existing_image_path=existing_image_path)
@@ -223,6 +266,16 @@ def logout():
     print("User session cleared")
     flash('Logged Out Successfully')
     return redirect(url_for('index'))
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/stat')
+def stat():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('stat.html')
 
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
@@ -298,7 +351,7 @@ def chatbot_response(msg):
 
 @app.route("/cbot")
 def cbot():
-    return render_template("index.html")
+    return render_template("cbot.html")
 
 
 @app.route("/get")
@@ -307,5 +360,9 @@ def get_bot_response():
     responses = chatbot_response(userText)
 
     return json.dumps(responses)
+
+
+
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    socketio.run(app,debug = True)

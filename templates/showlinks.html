@@ -1,26 +1,82 @@
+
 {% macro  show_links()  %}
+<nav class="navbar navbar-dark fixed-top" style="background-color: rgba(143, 112, 246,0.3);">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/dashboard"><img src="/static/styles/images.png" alt="Logo" style="width:40px;" class="rounded-pill"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('index')}}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About Us</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              More
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+              <li><a class="dropdown-item" href="/register">Register</a></li>
+              <li><a class="dropdown-item" href="/chat">Live Chat</a></li>
+              <li><a class="dropdown-item" href="/cbot">Chatbot</a></li>
+              <li><a class="dropdown-item" href="/stat">Statistics</a></li>
+          </li>
+        </ul>
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <ul class="nav nav-tabs" role="tablist" style="background-color:brown;">
     <li class="nav-item">
-      <a class="nav-link" style="color:white;" href="{{url_for('index')}}">Home</a>
+      <a class="nav-link" id="change" style="color:white;" href="{{url_for('index')}}">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" style="color:whitesmoke;" href="{{url_for('login')}}">Login</a>
+      <a class="nav-link" id="changel" style="color:whitesmoke;" href="{{url_for('login')}}">Login</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" style="color:whitesmoke;" href="{{url_for('register')}}">Register</a>
+      <a class="nav-link" id="changer" style="color:whitesmoke;" href="{{url_for('register')}}">Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" style="color:whitesmoke;" href="{{url_for('dashboard')}}">Dashboard</a>
+        <a class="nav-link" id="changed" style="color:whitesmoke;" href="{{url_for('dashboard')}}">Dashboard</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" style="color:whitesmoke;" href="{{url_for('logout')}}">Logout</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" id = "changea" style="color:whitesmoke;" href="/about">About Us</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" style="color:whitesmoke;" href="/cbot">chatbot</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" style="color:whitesmoke;" href="/chat">Live Chat</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" style="color:whitesmoke;" href="/stat">Statistics</a>
+</li>
+  <li class="nav-item">
+    
   </li>
   </ul>
 
+ 
   {% endmacro %}
 
 

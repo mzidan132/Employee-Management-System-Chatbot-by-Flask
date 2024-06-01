@@ -1,66 +1,270 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Chatbot</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        @import 'https://fonts.googleapis.com/css?family=Noto+Sans';
+
+        body {
+            padding: 0;
+            margin: 0;
+            background: -moz-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+            background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #0AD5C1;
+            font-family: 'Noto Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+            background-color: rgba(25, 147, 147, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: rgba(25, 147, 147, 0.2);
+        }
+
+        .chat-thread {
+            margin: 24px auto 0 auto;
+            padding: 0 20px 0 0;
+            list-style: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            flex-grow: 1;
+        }
+
+        .chat-thread li {
+            position: relative;
+            clear: both;
+            display: inline-block;
+            padding: 16px 40px 16px 20px;
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            line-height: 20px;
+            border-radius: 10px;
+            background-color: rgba(25, 147, 147, 0.2);
+        }
+
+        .chat-thread li:before {
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            content: "";
+        }
+
+        .chat-thread li:after {
+            position: absolute;
+            top: 15px;
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 15px solid rgba(25, 147, 147, 0.2);
+        }
+
+        .chat-thread .user-message {
+            float: right;
+            margin-right: 80px;
+            color: #0AD5C1;
+        }
+
+        .chat-thread .user-message:before {
+            right: -80px;
+            background-color: darkviolet;
+            /* Avatar Image */
+        }
+
+        .chat-thread .user-message:after {
+            border-right: 15px solid transparent;
+            right: -15px;
+        }
+
+        .chat-thread .other-message {
+            float: left;
+            margin-left: 80px;
+            color: #a7ff5b;
+        }
+
+        .chat-thread .other-message:before {
+            left: -80px;
+            background-color: indianred;
+        }
+
+        .chat-thread .other-message:after {
+            border-left: 15px solid transparent;
+            left: -15px;
+        }
+
+        .chat-window {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin: auto;
+        }
+
+        .chat-window-message {
+            width: calc(100% - 60px);
+            /* Adjusted width to accommodate the send button */
+            height: 48px;
+            font-size: 32px;
+            line-height: 48px;
+            background: none;
+            color: #0AD5C1;
+            border: 0;
+            border-bottom: 1px solid rgba(25, 147, 147, 0.2);
+            outline: none;
+        }
+
+        .button {
+            display: inline-block;
+            width: 50px;
+            height: 40px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: goldenrod;
+            border: none;
+            border-radius: 15px;
+          
+        }
+
+        .button:hover {
+            background-color: #3e8e41
+        }
+
+        .button:active {
+            background-color: goldenrod;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+        @media all and (max-width: 767px) {
+            .chat-thread {
+                width: 90%;
+                height: auto;
+            }
+
+            .chat-window {
+                left: 5%;
+                width: 90%;
+            }
+        }
+
+        @media all and (min-width: 768px) {
+            .chat-thread {
+                width: 50%;
+                height: auto;
+            }
+
+            .chat-window {
+                left: 25%;
+                width: 50%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div>
-    <li class="nav-item">
-      <a class="nav-link" style="color:white;" href="{{url_for('index')}}">Home</a>
-    </li>
-  </div>
-  <!-- partial:index.partial.html -->
-  <section class="msger">
-    <header class="msger-header">
-      <div class="msger-header-title">
-        <h3 style="color:rgb(255, 0, 0)"><span style='font-size:20px;'>&#127801;</span> OfficeBot <span style='font-size:20px;'>&#127801;</span></h3>
-      </div>
-    </header>
-
-    <main class="msger-chat">
-      <div class="msg left-msg">
-        <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div>
-
-        <div class="msg-bubble">
-          <div class="msg-info">
-            <div class="msg-info-name">Chatbot</div>
-          </div>
-
-          <div class="msg-text">
-            Hello, welcome to OfficeBot! If you need any help give me a message 😄
+    <nav class="navbar navbar-dark fixed-top" style="background-color: rgba(143, 112, 246, 0.3);">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/dashboard"><img src="/static/styles/images.png" alt="Logo" style="width:40px;" class="rounded-pill"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/about">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    More
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                    <li><a class="dropdown-item" href="/register">Register</a></li>
+                    <li><a class="dropdown-item" href="/chat">Live Chat</a></li>
+                    <li><a class="dropdown-item" href="/cbot">Chatbot</a></li>
+                    <li><a class="dropdown-item" href="/stat">Statistics</a></li>
+                </li>
+              </ul>
+              <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </nav>
+     
+    <ul id="chat" class="chat-thread"></ul>
+    <div class="chat-window">
+        <form id="messageForm">
+            <input id="message" class="chat-window-message" type="text" placeholder="Type your message here..."
+                autocomplete="off" required />
+            <button type="submit" class="button">Send</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+            const chat = document.getElementById('chat');
 
-    </main>
+            socket.on('message', function (data) {
+                const item = document.createElement('li');
+                item.textContent = `${data.username}: ${data.message}`;
+                item.className = data.username === '{{ username }}' ? 'user-message' : 'other-message';
+                chat.appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
 
-    <form class="msger-inputarea">
-      <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
-      <button type="submit" class="msger-send-btn">Send</button>
-    </form>
-  </section>
-  <!-- partial -->
-  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
-  
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-crossorigin="anonymous"></script>
+            const messageForm = document.getElementById('messageForm');
+            const messageInput = document.getElementById('message');
+
+            messageForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const message = messageInput.value.trim();
+                if (message) {
+                    socket.send({ username: '{{ username }}', message: message });
+                    messageInput.value = '';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

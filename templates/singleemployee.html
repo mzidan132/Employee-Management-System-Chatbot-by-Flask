@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD_SINGLE_EMP_PROFILE_page.</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
     <link rel="stylesheet" href="{{ url_for('static', filename ='singleemp.css')}}" type = "text/css">
 </head>
 <body>
@@ -16,16 +18,9 @@
           {{ show_links() }}
       </div>
 
-        <div class="child child4">
-          <h3 class="m-2">EMPLOYEE PROFILE PAGE</h3>
+        <div class="child child4" >
+          <h3 class="m-2">EMPLOYEE PROFILE</h3>
       </div>
-
-      <div class="child child5" style="color:rgb(0, 75, 93);">
-        {% if user %}
-        <h3 class="m-2"><i>User : {{user['name']}}</i></h3>
-        {% endif %}
-      </div>
-
 
         <div class="child child6 container">
             <ul class="nav nav-tabs nav-fill mb-3">
@@ -44,7 +39,7 @@
                         {% if single_emp %}
                         <div>
                           {% if single_emp['img_path'] %}
-                              <img src="{{ url_for('static', filename=single_emp['img_path']) }}" class="img-fluid rounded-start" alt="Employee Image" height="300px" width="400px">
+                              <img src="{{ url_for('static', filename=single_emp['img_path']) }}" class="img-fluid rounded-circle" alt="Employee Image" >
                           {% else %}
                               <!-- Placeholder image or alternative content -->
                               <i class="fas fa-image"></i>
@@ -58,56 +53,56 @@
                           {% if single_emp %}  
                          
                           <ul class="list-group list-group-numbered">
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-start ">
                               <div class="ms-2 me-auto">
                                 <div class="fw-bold">Full Name : {{single_emp['name']}}</div>
                               </div>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <li class="list-group-item list-group-item-info d-flex justify-content-between align-items-start">
                               <div class="ms-2 me-auto">
                                 <div class="fw-bold">Email ID : {{single_emp['email']}}</div>
                                 </div>
                            
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                              <div class="ms-2 me-auto">
-                                <div class="fw-bold">Phone : {{single_emp['phone']}}</div>
-                                </div>
+                                <li class="list-group-item list-group-item-warning d-flex justify-content-between align-items-start">
+                                  <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Phone : {{single_emp['phone']}}</div>
+                                    </div>
                            
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Address : {{single_emp['address']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-info d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Salary : {{single_emp['salary']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Job Role : {{single_emp['job_role']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-warning d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Skills : {{single_emp['skills']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Total Projects : {{single_emp['total_project']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Academics : {{single_emp['academics']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Performance : {{single_emp['Performance']}}</div>
                                     </div>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <li class="list-group-item list-group-item-info d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                   <div class="fw-bold">Suggestions : {{single_emp['suggestion']}}</div>
                                     </div>
@@ -129,9 +124,5 @@
 
       </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>
 </html>

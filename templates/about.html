@@ -1,0 +1,175 @@
+{% from "showlinks.html" import show_links, showsocialmedialinks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mangers Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='about.css') }}">
+ 
+</head>
+
+<body style="background-image: url('/static/styles/c.jpg'); background-size: cover;">
+  <nav class="navbar navbar-dark fixed-top" style="background-color: rgba(143, 112, 246,0.3);">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard"><img src="/static/styles/images.png" alt="Logo" style="width:40px;" class="rounded-pill"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('index')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About Us</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                More
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="/login">Login</a></li>
+                <li><a class="dropdown-item" href="/register">Register</a></li>
+                <li><a class="dropdown-item" href="/chat">Live Chat</a></li>
+                <li><a class="dropdown-item" href="/cbot">Chatbot</a></li>
+                <li><a class="dropdown-item" href="/stat">Statistics</a></li>
+            </li>
+          </ul>
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <br><br><br>
+  <ul class="nav nav-tabs" role="tablist" style="background-color:brown;">
+      <li class="nav-item">
+        <a class="nav-link" id="change" style="color:white;" href="{{url_for('index')}}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="changel" style="color:whitesmoke;" href="{{url_for('login')}}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="changer" style="color:whitesmoke;" href="{{url_for('register')}}">Register</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="changed" style="color:whitesmoke;" href="{{url_for('dashboard')}}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="color:whitesmoke;" href="{{url_for('logout')}}">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id = "changea" style="color:whitesmoke;" href="/about">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:whitesmoke;" href="/cbot">chatbot</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color:whitesmoke;" href="/chat">Live Chat</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" style="color:whitesmoke;" href="/stat">Statistics</a>
+  </li>
+    <li class="nav-item">
+      
+    </li>
+    </ul>
+  
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <img src="/static/p.jpg" alt="Jane" style="width:100%;height:250px;">
+        <div class="container">
+          <h3>Pulak Islam</h3>
+          <p class="title">Data Collector & Digram Designer</p>
+          <p>Hello I am Pulak. I am a student of Department of CSE, EWU.</p>
+          <p>I have good communication skills and I am interested in marketing, system analyst roles etc.</p>
+          <p>Bogura, Bangladesh</p>
+          <p><button class="button" id="redirectButton">Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("redirectButton").addEventListener("click", function () {
+        // Replace the URL below with the link you want to redirect to
+        window.location.href = "https://www.facebook.com/pulak.islam.9","_blank";
+      });
+    </script>
+    <div class="column">
+      <div class="card">
+        <img src="/static/z.jpg" alt="Mike" style="width:100%;height: 250px;">
+        <div class="container">
+          <h3>Md ZinDin Zidan</h3>
+          <p class="title">Software Engineer and Data Scientist</p>
+          <p>Hello I am Zidan. I am a student of Department of CSE, EWU.</p>
+          <ul>
+            <li>My Passion is Programming</li>
+            <li>My Skills include:</li>
+            <li>HTML, CSS, Bootstrap, Javascript, Python, Flask, Machine Learning, Deep Learning</li>
+          </ul>
+          <p><button class="button" id = "redirectButtons">Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("redirectButtons").addEventListener("click", function () {
+        // Replace the URL below with the link you want to redirect to
+        window.location.href = "https://www.facebook.com/muhammad.zidane.988371","_blank";
+      });
+    </script>
+    <div class="column">
+      <div class="card">
+        <img src="/static/s.jpg" alt="John" style="width:100%;height:250px;">
+        <div class="container">
+          <h3>Safaet Abdullah Emon</h3>
+          <p class="title">Chatbot Data Curator</p>
+          <p>Hello I am Safaet. I am a student of Department of CSE, EWU.</p>
+          <p>I have good communication skills and I am interested in networking and bank roles etc.</p>
+          <p>Joypurhat, Bangladesh</p>
+          <p><button class="button" id = "redirectButtonn">Contact</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("redirectButtonn").addEventListener("click", function () {
+      // Replace the URL below with the link you want to redirect to
+      window.location.href = "https://www.facebook.com/safaetabdullah.emon","_blank";
+    });
+  </script>
+  <h2 class="h">About Our Project</h2>
+  <div class="dv">
+    <h3 style="text-align: center;color:rgb(187, 9, 9)">Rose Plantatation Assistant</h3>
+    <ul>
+      <li>Our Project is about building Rose plantation assistant using deep neural networks.</li><br>
+      <li> The user will be able to upload an image of suspected leaf and the model will recognize the disease and the
+        disease preventation guidelines will be provided in a chatbot and in the dropdowns as well.</li><br>
+      <li> Also the user will be able to get pesticides related source suggestion via ads and they will be able to
+        communicate with us for further assistant if they register.</li>
+    </ul>
+    <div style="text-align: center;">
+    <ul type='circle'>
+      <li>Technology Used for Development:</li>
+      <li>Frontend: HTML, CSS, Bootstrap, Javascript</li>
+      <li>Backend: Python, Flask, Sqlite, ML models and Libraries</li>
+    </ul></div>
+  </div>
+
+</body>
+
+</html>

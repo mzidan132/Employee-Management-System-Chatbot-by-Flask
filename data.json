@@ -100,9 +100,103 @@
                 "What support is offered"
             ],
             "responses": [
-                "I can guide you about rose plantation",
-                "I can suggest you rose disease preventation techniques, ",
-                "We are offering support for Adverse rose disease preventation and plantation"
+                "I can give you information about our company"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "ceo",
+            "patterns": [
+                "Who Is Our CEO?"
+            ],
+            "responses": [
+                "Our CEO is Mr. Zidan"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "cmo",
+            "patterns": [
+                "Who Is Our CMO?"
+            ],
+            "responses": [
+                "Our CMO is Mr. Pulok"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "cfo",
+            "patterns": [
+                "Who Is Our CFO?"
+            ],
+            "responses": [
+                "Our CFO is Mr. Shimul"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "policies",
+            "patterns": [
+                "What Is Our Company policies?"
+            ],
+            "responses": [
+                "our companies policies are...."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "colab",
+            "patterns": [
+                "Which companies collaborate with us??"
+            ],
+            "responses": [
+                "google, facebook, microsoft, amazon...."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "promotion",
+            "patterns": [
+                "how to get promotion?"
+            ],
+            "responses": [
+                "To get promotion faster follow these guidelines..."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "punish",
+            "patterns": [
+                "What are the punishments for absence?"
+            ],
+            "responses": [
+                "The punishment policies are..."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "objective",
+            "patterns": [
+                "What is the objective of this company?"
+            ],
+            "responses": [
+                "Our objective is...."
             ],
             "context": [
                 ""

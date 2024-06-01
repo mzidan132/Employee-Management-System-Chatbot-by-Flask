@@ -6,10 +6,22 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLASK-CRUD_APP_Dashboard_page.</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>FLASK-CRUD_APP_Dashboard_pages.</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css')}}" type="text/css">
+  <style>
+    html,body{
+     
+      background-image:url('static/styles/dd.jpg');
+    }
+    .parent{
+      background-image:url('static/styles/dd.jpg');
+    }
+    #changed{
+      background-color: violet;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,25 +36,22 @@
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <ul class=flashes>
+   
       {% for message in messages %}
-      <h3>{{ message }}</h3>
+      <div class="alert alert-success alert-dismissible fade show fixed-bottom">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Attention!</strong> {{message}}
+      </div>
       {% endfor %}
-    </ul>
+  
     {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
-    <div class="child child5" style="color:rgb(0, 75, 93);">
-      {% if user %}
-      <h3 class="m-2"><i>User : {{user['name']}}</i></h3>
-      {% endif %}
-    </div>
-
-
+    
     <div class="child child6  container" style="color:rgb(0, 75, 93);">
       <ul class="nav nav-tabs nav-fill mb-3">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ url_for('dashboard')}}"
+          <a class="nav-link" aria-current="page" href="{{ url_for('dashboard')}}"
             style=" background-color:rgb(0, 75, 93); color:whitesmoke;">View All Employee</a>
         </li>
         <li class="nav-item">
@@ -56,9 +65,9 @@
           <h3>LIST OF ALL EMPLOYEES</h3>
         </caption>
         <hr>
-        <table class="table">
+        <table class="table table-hover">
           <thead>
-            <tr>
+            <tr class="table-dark">
               <th scope="col">Empoyee ID</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -71,21 +80,22 @@
           </thead>
           <tbody>
             {% for emp in allemp %}
-            <tr>
+            <tr class="table-secondary">
               <th scope="row">{{ emp['empid'] }} </th>
               <td>{{ emp['name'] }}</td>
               <td>{{ emp['email'] }}</td>
               <td>{{ emp['phone'] }}</td>
               <td>{{ emp['address'] }}</td>
-              <td><a class="btn btn-sm" style="background-color:rgb(0, 75, 93); color:whitesmoke;"
-                  href="{{ url_for('fetchone', empid = emp['empid'] )}}">Update</a></td>
+              <td><a href="{{ url_for('fetchone', empid = emp['empid'] )}}"><button class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm"></span>
+                    Update
+                  </button></a></td>
               <td>
                 <form action="{{ url_for('deleteemp', empid=emp['empid']) }}" method="POST">
-                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <button type="submit" class="btn btn-outline-danger">Delete</button>
                 </form>
               </td>
-              <td><a class="btn btn-sm" style="background-color:rgb(0, 75, 93); color:whitesmoke;"
-                  href="{{ url_for('singleemployee', empid = emp['empid'] )}}">View Full Profile</a></td>
+              <td><a href="{{ url_for('singleemployee', empid = emp['empid'] )}}"><button class="btn btn-success">View Profile</button></a></td>
             </tr>
             {% endfor %}
 
@@ -94,20 +104,8 @@
       </div>
     </div>
 
-
-
   </div>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-    crossorigin="anonymous"></script>
+ 
 </body>
 
 </html>
